@@ -11,9 +11,38 @@
 
 settings:
   max_topics: 6        # 每天最多归纳几个话题
-  lookback_hours: 30   # 只看最近多少小时内的热门
+  lookback_hours: 48   # 你的支柱源(健身/投资专栏)更新没新闻快，窗口放宽到 48h
 
 sources:
+  # ============ 你的专属支柱源（健身 / 投资 / 创业，按 profile 三根支柱配） ============
+  # 放最前面，优先进入分析视野，确保你关心的领域每天都被覆盖，而非碰运气撞上头条。
+
+  # ---- 💪 身体 / 健身（循证向，专治"饮食/recomp/CrossFit"那几条立场）----
+  - name: Stronger by Science 循证健身
+    type: rss
+    url: https://www.strongerbyscience.com/feed/
+
+  - name: Reddit r/Fitness
+    type: rss
+    url: https://www.reddit.com/r/Fitness/.rss
+  # - name: Reddit r/crossfit          # Reddit RSS 偶尔被限流，可选启用
+  #   type: rss
+  #   url: https://www.reddit.com/r/crossfit/.rss
+
+  # ---- 📈 投资 / 宏观（含补你"美股不了解"的认知缺口）----
+  - name: A Wealth of Common Sense
+    type: rss
+    url: https://awealthofcommonsense.com/feed/   # 长期 vs 择时，正顶你的保守立场
+
+  - name: Investing.com 市场
+    type: rss
+    url: https://www.investing.com/rss/news.rss
+
+  - name: Marginal Revolution 经济
+    type: rss
+    url: https://marginalrevolution.com/feed
+
+  # ============ 全球泛热点（提供"你还没想到"的话题，负责发现而非对症） ============
   # ---------------- 科技圈共识 ----------------
   - name: Hacker News 热榜
     type: hackernews

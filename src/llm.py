@@ -17,7 +17,7 @@ from openai import OpenAI
 from . import search
 from .config import DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL, DEEPSEEK_MODEL
 
-MAX_FEED = 60  # 最多喂给模型多少条热门原料，平衡视野与成本
+MAX_FEED = 100  # 最多喂给模型多少条原料；源变多后调高，确保你的支柱内容不被挤掉
 
 _TONE = {
     "gentle": "语气温和，像朋友善意提醒，不带攻击性。",
