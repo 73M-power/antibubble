@@ -28,7 +28,7 @@ jobs:
 
       - name: Break the bubble
         env:
-          WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           RSSHUB_BASE: ${{ secrets.RSSHUB_BASE }}   # 可选，不填用公共实例
         run: python -m src.main
