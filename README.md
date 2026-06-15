@@ -88,8 +88,9 @@ tone: balanced   # gentle / balanced / sharp
 # 1. 装依赖
 pip install -r requirements.txt
 
-# 2. 配置密钥
-cp .env.example .env   # 然后填入 FEISHU_WEBHOOK 和 DEEPSEEK_API_KEY
+# 2. 配置密钥与立场画像
+cp .env.example .env               # 填入 FEISHU_WEBHOOK 和 DEEPSEEK_API_KEY
+cp profile.example.yaml profile.yaml   # 填你的关注领域与立场（可选，留空=通用模式）
 
 # 3. 先测采集层（不花钱、不调 AI）
 python -m src.main --collect-only
