@@ -11,8 +11,8 @@ def _env(key, default=""):
     return os.getenv(key, default).strip().strip("﻿").strip()
 
 
-# 飞书自定义机器人 Webhook
-FEISHU_WEBHOOK = _env("FEISHU_WEBHOOK")
+# 企业微信群机器人 Webhook（群 → 添加群机器人 → 复制 Webhook 地址）
+WECOM_WEBHOOK = _env("WECOM_WEBHOOK")
 
 # DeepSeek（OpenAI 兼容接口）
 DEEPSEEK_API_KEY = _env("DEEPSEEK_API_KEY")

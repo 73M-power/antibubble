@@ -4,7 +4,7 @@
 
 每天早上，它从全球热榜抓取当下最主流的声音，然后用 AI 反向加工——
 不是帮你总结新闻，而是**找出每个共识背后最聪明的反方论证、集体盲点，
-再抛给你一个能跳出立场的问题**，推送到你的飞书。
+再抛给你一个能跳出立场的问题**，推送到你的企业微信。
 
 零服务器、零成本：跑在 GitHub Actions 上，每天定时自动执行。
 Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
@@ -13,7 +13,7 @@ Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
 
 ## 它长什么样
 
-每天推送一张飞书卡片，3~6 个话题，每个都是一次"破壁"：
+每天推送一条企业微信消息，3~6 个话题，每个都是一次"破壁"：
 
 ```
 🫧 茧房粉碎机 · 2026-06-15
@@ -30,7 +30,7 @@ Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
 （…更多话题）
 ```
 
-> 卡片里的反方立场只为**破壁与独立思考**服务，不代表事实结论。
+> 消息里的反方立场只为**破壁与独立思考**服务，不代表事实结论。
 
 ## 为什么有意思
 
@@ -41,7 +41,7 @@ Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
 ## 工作原理
 
 ```
-全球热榜  →  LLM 反向加工          →  去重  →  飞书卡片
+全球热榜  →  LLM 反向加工          →  去重  →  企业微信
 (主流声音)   识别共识/找最强反方/      (同话题      (主流 vs
              戳破盲点/抛出提问         不重复打扰)   另一面)
 ```
@@ -53,8 +53,8 @@ Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
 | `src/collect.py` | 采集主流声音（HackerNews 热榜 + 各大媒体 RSS） |
 | `src/llm.py`     | **核心**：DeepSeek 识别共识 → 生成反方视角 |
 | `src/dedup.py`   | 按"话题"去重，同一争论不天天推 |
-| `src/render.py`  | 渲染成飞书"对比卡片" |
-| `src/push.py`    | 推送到飞书机器人 |
+| `src/render.py`  | 渲染成企业微信"对比消息" |
+| `src/push.py`    | 推送到企业微信群机器人 |
 | `src/main.py`    | 串起整条流水线 |
 
 ## 快速开始
@@ -64,28 +64,28 @@ Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
 pip install -r requirements.txt
 
 # 2. 配置密钥
-cp .env.example .env   # 然后填入 FEISHU_WEBHOOK 和 DEEPSEEK_API_KEY
+cp .env.example .env   # 然后填入 WECOM_WEBHOOK 和 DEEPSEEK_API_KEY
 
 # 3. 先测采集层（不花钱、不调 AI）
 python -m src.main --collect-only
 
-# 4. 跑全链路但不推送，看看卡片长啥样
+# 4. 跑全链路但不推送，看看消息长啥样
 python -m src.main --dry-run
 
-# 5. 正式推一条到飞书
+# 5. 正式推一条到企业微信
 python -m src.main
 ```
 
 需要两个密钥：
 
-- **飞书 Webhook**：群设置 → 群机器人 → 添加自定义机器人，复制 Webhook 地址
+- **企业微信 Webhook**：企业微信群 → 右上角 ··· → 添加群机器人 → 复制 Webhook 地址（个人也可免费注册企业微信）
 - **DeepSeek API Key**：<https://platform.deepseek.com>（也兼容任意 OpenAI 协议接口，改 `DEEPSEEK_BASE_URL` 即可）
 
 ## 让它每天自动跑
 
 1. Fork 本仓库
 2. 仓库 `Settings → Secrets and variables → Actions` 添加两个 secret：
-   `FEISHU_WEBHOOK`、`DEEPSEEK_API_KEY`
+   `WECOM_WEBHOOK`、`DEEPSEEK_API_KEY`
 3. 改 `.github/workflows/daily.yml` 里的 cron 到你想要的时间（默认北京时间 07:00）
 4. 收工。Actions 每天定时帮你破壁。
 
@@ -94,7 +94,7 @@ python -m src.main
 - **换信息源**：编辑 `sources.yaml`，加 RSS 或 HackerNews 源。源越多元，挖出的对立面越丰富。
 - **加中文热点**：自建 [RSSHub](https://docs.rsshub.app) 后，取消 `sources.yaml` 里微博/知乎/即刻的注释，并设置 `RSSHUB_BASE`。
 - **调性格**：`src/llm.py` 里的 `SYSTEM_PROMPT` 决定它有多"锋利"。
-- **换推送渠道**：只需替换 `src/push.py`（钉钉、Telegram、邮件都行）。
+- **换推送渠道**：只需替换 `src/push.py`（飞书、钉钉、Telegram、邮件都行）。
 
 ## License
 

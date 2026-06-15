@@ -1,12 +1,11 @@
 """编排入口：采集主流声音 → LLM 反向加工 → 去重 → 渲染 → 推送。
 
 用法：
-    python -m src.main                # 完整跑一遍并推送到飞书
-    python -m src.main --dry-run      # 跑全链路但不推送，打印卡片 JSON
+    python -m src.main                # 完整跑一遍并推送到企业微信
+    python -m src.main --dry-run      # 跑全链路但不推送，打印消息文本
     python -m src.main --collect-only # 只测采集（不调 LLM、不推送）
 """
 import argparse
-import json
 import sys
 
 # Windows 控制台默认 GBK，强制 UTF-8 以免 emoji/中文输出报错
@@ -51,16 +50,17 @@ def run(dry_run=False, collect_only=False):
         print("   今日话题都近期推过，静默退出。")
         return 0
 
-    print("④ 渲染对比卡片…")
-    card = render.build_card(fresh)
+    print("④ 渲染对比消息…")
+    messages = render.build_messages(fresh)
 
     if dry_run:
-        print(json.dumps(card, ensure_ascii=False, indent=2))
+        for i, m in enumerate(messages, 1):
+            print(f"\n----- 第 {i}/{len(messages)} 条 -----\n{m}")
         print("\n(--dry-run：未推送，未更新状态库)")
         return 0
 
-    print("⑤ 推送到飞书…")
-    push.push(card)
+    print(f"⑤ 推送到企业微信（{len(messages)} 条）…")
+    push.push(messages)
     dedup.mark_seen([dedup.topic_id(t["title"]) for t in fresh], seen)
     print("   ✓ 推送完成，状态库已更新")
     return 0
