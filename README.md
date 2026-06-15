@@ -52,10 +52,35 @@ Fork 一份、填两个密钥、改一行定时，你就拥有了同款。
 |------|------|
 | `src/collect.py` | 采集主流声音（HackerNews 热榜 + 各大媒体 RSS） |
 | `src/llm.py`     | **核心**：DeepSeek 识别共识 → 生成反方视角 |
+| `src/search.py`  | 可选的联网检索，给反方找真实出处 |
 | `src/dedup.py`   | 按"话题"去重，同一争论不天天推 |
 | `src/render.py`  | 渲染成飞书"对比卡片" |
 | `src/push.py`    | 推送到飞书机器人 |
 | `src/main.py`    | 串起整条流水线 |
+| `profile.yaml`   | **你的立场画像**：让它拆"你的"墙而非泛泛的墙 |
+
+## 两个让它"对症"的开关
+
+普通的破壁工具给的是「人类平均茧房」的反面，且反方全靠模型凭空想。这里多了两层：
+
+**🎯 定制化 —— 拆「你的」墙**
+编辑 [`profile.yaml`](profile.yaml)，写下你关注的领域和**你目前相信的判断**：
+
+```yaml
+interests: [AI 与就业, 投资与宏观经济]
+stances:
+  - "AI 会在几年内大幅取代初级程序员"
+  - "长期看股市总会涨，无脑定投指数就行"
+tone: balanced   # gentle / balanced / sharp
+```
+
+之后 AI 会优先挑你关心的话题，并**专门针对你写下的立场**给最有力的反方，卡片上标 `🎯 直击你的立场`。留空则退化为通用破壁。
+
+**🔎 取证 —— 让反方有真实出处**
+默认情况下反方是模型推理，卡片会**如实标注** `💭 请自行核实`——不假装可信。
+若你配置了 `TAVILY_API_KEY`（[tavily.com](https://tavily.com)，有免费额度），它会为每个反方联网搜真实材料，把标注翻成 `🔎 反方有据` 并附上出处链接。
+
+> 设计原则：宁可诚实地告诉你"这是模型推的、请核实"，也不给你一个看起来权威、实则凭空生成的论断。
 
 ## 快速开始
 
@@ -93,7 +118,9 @@ python -m src.main
 
 - **换信息源**：编辑 `sources.yaml`，加 RSS 或 HackerNews 源。源越多元，挖出的对立面越丰富。
 - **加中文热点**：自建 [RSSHub](https://docs.rsshub.app) 后，取消 `sources.yaml` 里微博/知乎/即刻的注释，并设置 `RSSHUB_BASE`。
-- **调性格**：`src/llm.py` 里的 `SYSTEM_PROMPT` 决定它有多"锋利"。
+- **拆你自己的墙**：编辑 `profile.yaml` 填关注领域与既有立场（见上方"两个开关"）。
+- **让反方有出处**：配置 `TAVILY_API_KEY` 开启联网取证。
+- **调性格**：`profile.yaml` 的 `tone`，或 `src/llm.py` 里的提示词。
 - **换推送渠道**：只需替换 `src/push.py`（钉钉、Telegram、邮件都行）。
 
 ## License

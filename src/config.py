@@ -21,3 +21,7 @@ DEEPSEEK_MODEL = _env("DEEPSEEK_MODEL", "deepseek-chat")
 
 # RSSHub 实例（{RSSHUB} 占位符会被替换成这个）
 RSSHUB_BASE = _env("RSSHUB_BASE", "https://rsshub.app").rstrip("/")
+
+# Tavily 联网检索（可选）：填了就给"另一面"找真实出处（grounding），
+# 不填则反方退化为模型纯推理，并在卡片上如实标注。https://tavily.com
+TAVILY_API_KEY = _env("TAVILY_API_KEY")

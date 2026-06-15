@@ -40,6 +40,20 @@ sources:
     type: rss
     url: https://www.reddit.com/r/popular/.rss
 
+  # ---------------- 观点多元源（专门提供"另一面"的原料，立场各异） ----------------
+  # 让语料本身就含多种立场，反方就不全靠模型凭空想。
+  - name: Reddit ChangeMyView
+    type: rss
+    url: https://www.reddit.com/r/changemyview/.rss   # 天生的"请反驳我"广场
+
+  - name: Reddit 冷门观点
+    type: rss
+    url: https://www.reddit.com/r/unpopularopinion/.rss
+
+  - name: The Guardian 评论
+    type: rss
+    url: https://www.theguardian.com/uk/commentisfree/rss   # 各路观点专栏
+
   # ---------------- 中文热点（需自建 RSSHub 后启用） ----------------
   # 公共 RSSHub 实例已被限流，自建后取消注释并把 RSSHUB_BASE 指向你的实例。
   # - name: 微博热搜

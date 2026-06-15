@@ -14,6 +14,7 @@
         "ts":      发布时间戳(float, 可能为 None),
     }
 """
+import os
 import re
 import time
 
@@ -37,6 +38,14 @@ def load_config(path: str = "sources.yaml"):
     with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     return data.get("settings", {}) or {}, data.get("sources", []) or []
+
+
+def load_profile(path: str = "profile.yaml"):
+    """读立场画像；文件不存在或为空则返回空 dict（退化为通用破壁模式）。"""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
 
 
 def _within_window(ts, lookback_hours) -> bool:

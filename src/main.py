@@ -16,11 +16,12 @@ for _stream in (sys.stdout, sys.stderr):
     except (AttributeError, ValueError):
         pass
 
-from . import collect, dedup, llm, render, push
+from . import collect, dedup, llm, render, push, search
 
 
 def run(dry_run=False, collect_only=False):
     settings, sources = collect.load_config()
+    profile = collect.load_profile()
     lookback = settings.get("lookback_hours", 30)
     max_topics = settings.get("max_topics", 6)
 
@@ -38,8 +39,10 @@ def run(dry_run=False, collect_only=False):
         print("   没采到任何原料，跳过（不推送）。")
         return 0
 
-    print("② DeepSeek 反向加工中（识别共识 → 找最强反方 → 戳破盲点）…")
-    topics = llm.break_bubble(items, max_topics)
+    mode = "对症（已读 profile）" if (profile.get("interests") or profile.get("stances")) else "通用"
+    grounding = "联网取证" if search.enabled() else "模型推理"
+    print(f"② DeepSeek 反向加工中（模式: {mode} · 反方: {grounding}）…")
+    topics = llm.break_bubble(items, max_topics, profile)
     print(f"   归纳出 {len(topics)} 个话题")
 
     print("③ 去重中（同一话题不重复打扰）…")
