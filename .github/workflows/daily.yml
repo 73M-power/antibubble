@@ -1,0 +1,47 @@
+name: daily-bubble-break
+
+on:
+  schedule:
+    # 23:00 UTC = 北京时间次日 07:00
+    - cron: "0 23 * * *"
+  workflow_dispatch: {}   # 支持手动触发，方便调试
+
+permissions:
+  contents: write          # 允许提交回 state/seen.json
+
+concurrency:
+  group: bubble-state
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Break the bubble
+        env:
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          RSSHUB_BASE: ${{ secrets.RSSHUB_BASE }}   # 可选，不填用公共实例
+        run: python -m src.main
+
+      - name: Persist seen state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/seen.json
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore: update seen state [skip ci]"
+            git pull --rebase --autostash origin main
+            git push
+          fi

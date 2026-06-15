@@ -1,0 +1,55 @@
+# ============================================================
+# 主流声音清单 —— 这里采集的是"大家正在热议、正在形成共识"的内容，
+# 也就是茧房本身。LLM 拿到后会反过来戳破它们。
+#
+# 加新源：复制一段，填 name / type / url 即可。
+#   type:  rss | hackernews
+#   {RSSHUB}: 会被替换成 RSSHUB_BASE 环境变量（默认公共实例）
+#
+# 提示：源越多元（科技/社会/政治/商业混在一起），AI 能挖出的对立面越丰富。
+# ============================================================
+
+settings:
+  max_topics: 6        # 每天最多归纳几个话题
+  lookback_hours: 30   # 只看最近多少小时内的热门
+
+sources:
+  # ---------------- 科技圈共识 ----------------
+  - name: Hacker News 热榜
+    type: hackernews
+    min_points: 150     # 只看真正高热的，代表性更强
+
+  # ---------------- 全球主流叙事（英文大媒体，实测稳定） ----------------
+  - name: BBC 世界
+    type: rss
+    url: https://feeds.bbci.co.uk/news/world/rss.xml
+
+  - name: The Guardian
+    type: rss
+    url: https://www.theguardian.com/world/rss
+
+  - name: NPR 头条
+    type: rss
+    url: https://feeds.npr.org/1001/rss.xml
+
+  - name: TechCrunch
+    type: rss
+    url: https://techcrunch.com/feed/
+
+  - name: Reddit 热门
+    type: rss
+    url: https://www.reddit.com/r/popular/.rss
+
+  # ---------------- 中文热点（需自建 RSSHub 后启用） ----------------
+  # 公共 RSSHub 实例已被限流，自建后取消注释并把 RSSHUB_BASE 指向你的实例。
+  # - name: 微博热搜
+  #   type: rss
+  #   url: "{RSSHUB}/weibo/search/hot"
+  #
+  # - name: 知乎热榜
+  #   type: rss
+  #   url: "{RSSHUB}/zhihu/hotlist"
+  #
+  # - name: 即刻热门
+  #   type: rss
+  #   url: "{RSSHUB}/jike/topic/square"
