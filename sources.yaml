@@ -18,13 +18,17 @@ sources:
   # 放最前面，优先进入分析视野，确保你关心的领域每天都被覆盖，而非碰运气撞上头条。
 
   # ---- 💪 身体 / 健身（循证向，专治"饮食/recomp/CrossFit"那几条立场）----
-  - name: Stronger by Science 循证健身
+  - name: Precision Nutrition 循证营养
     type: rss
-    url: https://www.strongerbyscience.com/feed/
+    url: https://www.precisionnutrition.com/feed   # 饮食/recomp 的循证内容
 
   - name: Reddit r/Fitness
     type: rss
     url: https://www.reddit.com/r/Fitness/.rss
+
+  - name: Reddit r/nutrition
+    type: rss
+    url: https://www.reddit.com/r/nutrition/.rss
   # - name: Reddit r/crossfit          # Reddit RSS 偶尔被限流，可选启用
   #   type: rss
   #   url: https://www.reddit.com/r/crossfit/.rss
